@@ -1,0 +1,85 @@
+snort barnyard installing 
+apt-get install \
+autoconf \
+automake \
+default-libmysqlclient-dev \
+dos2unix \
+libmariadbclient-dev \
+libmariadb-dev \
+libtool \
+mariadb-client \
+mariadb-server \
+unzip 
+
+sudo nano /etc/snort/snort.conf
+
+Step #6
+
+	output unified: filename snort.u2, limit 128
+	
+mkdir dl
+cd dl
+sudo wget http:server url
+unzip file
+./autogen.sh
+
+sudo ln -s /usr/include/dumbnet.h /usr/include/dnet.h
+sudo ldconfig
+
+sudo ./configure --with-mysql --with-mysql-libraries=/usr/lib/x86_64-linux-gnu/
+
+sudo make
+
+sudo make install
+
+sudo cp etc/barnyard2.conf /etc/snort/
+
+sudo mkdir /var/log/barnyard2/
+
+sudo chown snort:snort /var/log/barnyard2/
+
+sudo touch /var/log/snort /barnyard2.waldo
+
+sudo chown snort:snort /var/log/snort/barnyard2.waldo
+
+login to mariadb:
+
+sudo mysql -u root -p 
+
+use mysql 
+update user set plugin='' where user = root
+flush privileges
+
+sudo mysql_secure_installation
+set password for root
+all yes
+
+create database snort
+
+source /home/shuhari/dl/barnyard2-master/schemas/create_mysql
+create user 'snort'@'localhost' identified by toor
+grant insert, create, delete, update, select on snort.* to 'snort'@'localhost'
+flush privileges
+
+sudo nano /etc/snort/barnyard2.conf
+output database: log,mysql, user=snort password=toor dbname=snort host=localhost
+
+sudo nano /etc/snort/rules/local.rules
+	alert ip any any -> any any (msg:"Djay"; sid:100000001; rev:1;)
+
+wget http: server url
+
+sudo chmod 7557 sidmap.pl
+./create-sidmap.pl /etc/snort/rules/
+
+sudo sh -c './create-sidmap.pl /etc/snort/rules/ > /etc/snort/sid-msg.map'
+
+sudo snort -q -i ens33 -u snort -g snort -c /etc/snort.conf -A console
+
+sudo barnyard2 -c /etc/snort/barnyard2.conf -d /var/log/snort -f snort.u2 -w /var/log/snort/barnyard2.waldo -g snort -u snort
+
+at mysql 
+	login 
+	use snort;
+	select * from iphdr;
+	

@@ -1,0 +1,29 @@
+
+squid proxy load balancing
+
+deb 1 : 192.168.80.128
+deb 2 : 192.168.80.162
+deb 3 : 192.168.80.145
+
+
+
+
+acl deb dstdomain 192.168.80.128
+http_access allow deb
+http_port 3128 accel defaultsite=192.168.80.128 vhost
+cache_peer 192.168.80.162 parent 80 0 no-query originserver name=web
+cache_peer 192.168.80.162 parent 80 0 no-query originserver round-robin weight=1 name=web1
+cache_peer 192.168.80.145 parent 80 0 no-query originserver round-robin weight=1 name=web2
+
+
+
+
+ NGINX CONF 
+
+server {
+        listen 80;
+        location / {
+                proxy_pass http://192.168.80.175;
+        }
+}
+
